@@ -1,0 +1,20 @@
+{
+  "name": "todo.me",
+  "license": "MIT",
+  "homepage": "todo.me",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "v4.3.0",
+    "bootstrap": "3.3.7",
+    "jquery": "2.1.4",
+    "angular": "1.4.9",
+    "angular-sanitize": "1.4.9",
+    "angular-drag-and-drop-lists": "v1.2.0"
+  }
+}

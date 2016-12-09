@@ -1,0 +1,53 @@
+{
+    "name": "art2pro/todo.me",
+    "description": "dependencies of todo.me",
+    "minimum-stability": "stable",
+    "license": "public",
+    "config": {
+        "vendor-dir": "vendor/composer"
+    },
+    "autoload": {
+        "psr-0": {
+            "\\common\\config": "./common/config/"
+        }
+    },
+
+    "require": {
+        "yiisoft/yii2": "2.0.10",
+        "yiisoft/yii2-bootstrap": "2.0.6",
+        "yiisoft/yii2-swiftmailer": "2.0.4",
+        "yiisoft/yii2-imagine": "2.0.3",
+        "yiisoft/yii2-authclient": "2.0.5"
+    },
+    "require-dev": {
+        "yiisoft/yii2-codeception": "*",
+        "yiisoft/yii2-debug": "*",
+        "yiisoft/yii2-gii": "*",
+        "codeception/codeception": "*",
+        "codeception/specify": "*",
+        "codeception/verify": "*"
+    },
+    "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [],
+        "post-update-cmd": [
+            "npm update",
+            "./node_modules/bower/bin/bower update",
+            "mkdir -p frontend/web/assets",
+            "mkdir -p frontend/web/css",
+            "mkdir -p frontend/web/fonts",
+            "mkdir -p frontend/web/js",
+            "mkdir -pm 0700 frontend/web/img/",
+            "cp vendor/bower/jquery/dist/jquery.min.js frontend/web/js/jquery.js",
+            "cp vendor/bower/angular/angular.min.js frontend/web/js/angular.js",
+            "cp vendor/bower/angular-sanitize/angular-sanitize.min.js frontend/web/js/angular.sanitize.js",
+            "cp vendor/bower/font-awesome/css/font-awesome.min.css frontend/web/css/font-awesome.css",
+            "cp vendor/bower/font-awesome/fonts/* frontend/web/fonts/"
+        ]
+    }
+}

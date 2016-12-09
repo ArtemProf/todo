@@ -1,34 +1,28 @@
 <?php
 
-	/** @var \app\components\View $this */
-	/** @var \common\models\user\User $model */
+/** @var \app\components\View $this */
+/** @var common\models\user\User $model */
 
-	use frontend\components\widgets\AuthChoice;
-	use yii\helpers\Html;
-	use yii\helpers\Url;
-	use yii\widgets\ActiveForm;
+use frontend\components\widgets\AuthChoice;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\ActiveForm;
+use common\models\user\form\RegisterForm;
 
-	$this->title = 'Регистрация';
-
+$this->title = 'Registration';
 ?>
 
-	<div class="row">
-		<div class="col-md-5 col-md-offset-2 col-border" style="text-align:center">
-			<h5>Регистрация</h5>
-			<?$form=ActiveForm::begin()?>
-				<?=$form->field($model, 'email')->textInput(['placeholder' => 'Электронная почта'])->label(false)?>
-				<?=$form->field($model, 'password')->passwordInput(['placeholder' => $model->getAttributeLabel('password')])->label(false)?>
-				<?=Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary'])?>
-				<?/*<div class="help-block">Нажимая кнопку &laquo;Зарегистрироваться&raquo; вы<br>принимаете условия <a href="#">пользовательского соглашения</a></div>*/?>
-			<?$form->end()?>
-		</div>
-		<div class="col-md-3">
-			<h5>Через соцсеть</h5>
-			<?=AuthChoice::widget(['baseAuthUrl' => ['user/auth']])?>
-		</div>
-	</div>
-	<div class="b-head-auth-popup-register-link" style="margin-left:120px">
-		Уже зарегистрированы?
-		<a href="<?=Url::toRoute(['/user/login'])?>">Авторизация</a>
-	</div>
-a
+    <div class="login-form col-md-4 col-md-offset-4 m-t-10">
+        <h4 class="text-center">Registration</h4>
+        <? $form = ActiveForm::begin(
+            ['action' => Url::toRoute(['user/register']), 'class' => 'form-horizontal', 'enableClientValidation' => false]
+        ) ?>
+        <?= $form->field($model, 'email')->textInput(['placeholder' => 'Email'])->label(false) ?>
+        <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Password'])->label(false) ?>
+
+        <?= Html::submitButton('Register', ['class' => 'btn btn-primary col-md-12']) ?>
+
+        <a href="<?= Url::toRoute(['login']) ?>">Sing in</a>
+
+        <? $form->end() ?>
+    </div>

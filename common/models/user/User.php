@@ -13,11 +13,9 @@
 	 * @property string  password
 	 * @property string  authKey
 	 * @property string  authToken
-	 * @property string  sonetType  Тип авторизации (null|fb,vk,tw) - с помощью какой соцсети был вход
-	 * @property string  sonetId    Идентификатор пользователя в соцсети
 	 * @property string  nameFirst
 	 * @property string  nameLast
-	 * @property string  gender     Пол (м|ж)
+	 * @property string  gender
 	 *
 	 * @method static User findOne($condition)
 	 */
@@ -27,11 +25,6 @@
 		 * Кеш текущего авторизованного пользователя в системе
 		 */
 		private static $_currentUser = null;
-
-		/**
-		 * Пароль пользователя, который входит через соцсеть
-		 */
-		public static $socialPassword = '$2y$13$/social';
 
 		public function init() {
 			parent::init();
@@ -60,10 +53,10 @@
 			return [
 				'id' => 'ID',
 				'email' => 'Email',
-				'fullName' => 'ФИО',
-				'nameFirst' => 'Имя',
-				'nameLast' => 'Фамилия',
-				'password' => 'Пароль'
+                'fullName' => 'Full name',
+				'nameFirst' => 'First name',
+				'nameLast' => 'Last name',
+				'password' => 'Password'
 			];
 		}
 
@@ -74,12 +67,10 @@
 			return [
 				[['email', 'password'], 'trim'],
 				[['email', 'password'], 'required'],
-				[['email'], 'email', 'checkDNS' => true],
+				[['email'], 'email', /*'checkDNS' => true*/],
 				[['email'], 'unique'],
 				[['nameFirst', 'nameLast'], 'default', 'value' => null],
-				[['sonetId'], 'integer'],
-				[['sonetType'], 'in', 'range' => ['fb', 'tw', 'vk', 'ok']],
-				[['gender'], 'in', 'range' => ['м', 'ж']]
+				[['gender'], 'in', 'range' => ['m', 'f']]
 			];
 		}
 
@@ -195,7 +186,7 @@
 			$name = trim(str_replace('  ', ' ', implode(' ', [$this->nameFirst, $this->nameLast])));
 
 			if ($name == '')
-				$name = 'Аноним';
+				$name = 'Anonymous';
 
 			return $name;
 		}

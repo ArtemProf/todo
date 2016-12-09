@@ -4,10 +4,7 @@
 /** @var $content string */
 
 use app\components\View;
-use frontend\components\widgets\AuthChoice;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\widgets\ActiveForm;
 
 $this->registerCssFile('/css/style.css?'.filemtime(Yii::getAlias('@frontend/web/css/style.css')));
 $this->registerJsFile('/js/scripts.js?'.filemtime(Yii::getAlias('@frontend/web/js/scripts.js')));
@@ -18,17 +15,12 @@ $this->registerJsFile(
     ]
 );
 
-$title = $this->seo_pageBrowserTitle ? : $this->title;
-
 if (Yii::$app->requestedRoute !== 'application/index') {
-    $title .= ' - БудуГуру';
+    $title = ' - БудуГуру';
 }
 
-$isLoginVisible = Yii::$app->user->isGuest
-    && Yii::$app->requestedRoute != 'user/login';
-
 ?>
-<? $this->beginPage() ?>
+<? $this->beginPage(); ?>
     <!DOCTYPE html>
     <html lang="ru" xmlns="http://www.w3.org/1999/html">
     <head>

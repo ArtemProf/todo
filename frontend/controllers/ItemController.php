@@ -25,4 +25,16 @@ class ItemController extends Controller
             ]
         );
     }
+
+    public function actionAdd()
+    {
+
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect('user/login');
+        }
+
+        $content = $this->getView()->render('edit',[],$this);
+
+        echo $content;
+    }
 }

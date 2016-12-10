@@ -10,15 +10,6 @@ use Yii;
 
 class UserController extends Controller
 {
-    public function actions()
-    {
-        return [
-            'auth' => [
-                'class'           => 'yii\authclient\AuthAction',
-                'successCallback' => [$this, 'successOAuthCallback'],
-            ],
-        ];
-    }
 
     public function actionLogin()
     {

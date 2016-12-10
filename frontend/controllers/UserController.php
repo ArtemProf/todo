@@ -6,6 +6,7 @@ use app\components\Controller;
 use common\models\user\User;
 use common\models\user\form\LoginForm;
 use yii\base\UserException;
+use Yii;
 
 class UserController extends Controller
 {
@@ -21,8 +22,6 @@ class UserController extends Controller
 
     public function actionLogin()
     {
-//			if (!Yii::$app->user->isGuest)
-//				return $this->goHome();
 
         $model = new LoginForm();
         $request = Yii::$app->request;

@@ -9,14 +9,10 @@
 	{
 
 		public $description = null;
-		public $headerStyle = self::HEADER_BLACK;
-		public $containerStyle = self::CONTAINER_TYPO;
+		public $headerStyle = '';
+		public $containerStyle = '';
 		public $authModel;
 		public $customHeader = null;
-
-		public $seo_pageBrowserTitle;
-		public $seo_pageDescription;
-		public $seo_pageKeywords;
 
 		/**
 		 * @var string[] Список классов тега body
@@ -28,11 +24,6 @@
 		 */
 		public $showFooterSonets = true;
 
-
-		public function beginPage() {
-			$this->authModel = new LoginForm();
-			parent::beginPage();
-		}
 
 		public function useAngular() {
 			$this->registerJsFile('/js/angular.js', ['position' => View::POS_HEAD]);

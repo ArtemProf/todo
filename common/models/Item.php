@@ -63,7 +63,7 @@ class Item extends ActiveRecord
             'description' => 'Description',
             'dueDate'     => 'Due Date',
             'itemGroup'   => 'Group',
-            'done'        => 'Password',
+            'done'        => 'Done',
         ];
     }
 

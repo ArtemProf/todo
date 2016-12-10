@@ -1,7 +1,7 @@
 <?php
 
 	return [
-		'/' => '/user/login',
+		'/' => '/item/index',
 		'/login' => '/user/login',
 		'/logout' => '/user/logout',
 		'/register' => '/user/register',

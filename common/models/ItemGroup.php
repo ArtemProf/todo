@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
  * Class ToDoList
  * @package common\models\user
  */
-class Item extends ActiveRecord
+class ItemGroup extends ActiveRecord
 {
     /**
      * @var integer

@@ -3,22 +3,38 @@
 /** @var \app\components\View $this */
 /** @var common\models\user\User $model */
 
-use frontend\components\widgets\AuthChoice;
-use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-use \common\models\user\form\LoginForm;
+use common\models\Item;
 
 $this->title = 'List';
 ?>
 
-<div class="list-group" contenteditable="true">
-    <a href="http://www.layoutit.com/build#" class="list-group-item active">Home</a>
-    <div class="list-group-item">List header</div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-heading">List group item heading</h4>
-        <p class="list-group-item-text">...</p>
-    </div>
-    <div class="list-group-item"><span class="badge">14</span>Help</div>
-    <a class="list-group-item active"><span class="badge">14</span>Help</a>
+<div class="list-group col-md-8 col-md-offset-2">
+    <a href="/item/add" class="btn btn-default">Add</a>
+</div>
+<div class="list-group col-md-8 col-md-offset-2">
+    <a href="#" class="list-group-item active">Home</a>
+    <? foreach ($list as $item): ?>
+        <div class="list-group-item">
+            <input type="checkbox" id="item-done" class="" name="Item[<?= $item->id ?>][done]" value="1">
+            <span><?= $item->description ?></span>
+            <div class="pull-right">
+                <a href="/item/edit/<?= $item->id ?>" class="link p-r-2">Edit</a>
+                <span class="badge"><?= $item->dueDate ?></span>
+            </div>
+        </div>
+    <? endforeach; ?>
+
+
+    <? foreach ($doneList as $item): ?>
+        <div class="list-group-item item-done">
+            <input type="checkbox" id="item-done" class="" name="Item[<?= $item->id ?>][done]" value="1" checked>
+            <span><?= $item->description ?></span>
+            <span class="badge"><?= $item->dueDate ?></span>
+        </div>
+    <? endforeach; ?>
+
+    <a class="list-group-item active">
+        <span class="badge"><?= count($list) ?></span>Count
+    </a>
 </div>

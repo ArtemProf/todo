@@ -2,7 +2,8 @@
 
 	namespace common\models\user;
 
-	use Yii;
+	use common\models\Item;
+    use Yii;
 	use yii\db\ActiveRecord;
 	use yii\web\IdentityInterface;
 
@@ -70,9 +71,36 @@
 				[['email'], 'email', /*'checkDNS' => true*/],
 				[['email'], 'unique'],
 				[['nameFirst', 'nameLast'], 'default', 'value' => null],
-				[['gender'], 'in', 'range' => ['m', 'f']]
+				[['gender'], 'in', 'range' => ['m', 'f']],
+                ['items', 'safe']
 			];
 		}
+
+        public function relations()
+        {
+            return array(
+                'items' => array(self::MANY_MANY, Item::tableName(), 'item(post_id, section_id)'),
+            );
+        }
+
+        public function getItems() {
+            return $this->hasMany(Item::className(), ['uid' => 'id'])
+                ->viaTable(Item::tableName(), ['uid' => 'id']);
+        }
+
+        public function getDoneItems() {
+            return $this->hasMany(Item::className(), ['uid' => 'id'])
+                ->viaTable(Item::tableName(), ['uid' => 'id'])->where(['done' => true]);
+        }
+
+        public function getActiveItems() {
+            return $this->hasMany(Item::className(), ['uid' => 'id'])
+                ->viaTable(Item::tableName(), ['uid' => 'id'])->where(['done'=> false]);
+        }
+
+        public function setItems($item) {
+            $this->items = $item;
+        }
 
 		/**
 		 * @param $email string Адрес Email пользователя, одновременно являющийся его логином

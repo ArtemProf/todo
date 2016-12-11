@@ -36,45 +36,41 @@ if (Yii::$app->requestedRoute !== 'application/index') {
 <div class="container" ng-app="taskApp" ng-controller="TaskListController">
 
     <div class="list-group col-md-8 col-md-offset-2">
-        <div class="list-group-item active text-right">
-        </div>
+        <div class="list-group-item active text-right">Artem's Task list</div>
 
         <div class="list-group-item">
-            <div class="col-md-11">
-                <input class="form-control" ng-model="description" ng-enter="add(description)"/>
-            </div>
-            <div class="col-md-1">
-                <a href="#" class="btn btn-default">Add</a>
-            </div>
-            <div class="clearfix"></div>
+            <input class="form-control" ng-model="description" ng-enter="add()" placeholder="Enter to add..."/>
         </div>
-        <div class="list-group-item" ng-repeat="task in tasks">
+        <div class="list-group-item task" ng-repeat="task in tasks">
 
-            <div class="col-md-4">
-                <input class="form-control" ng-show="task.editable" ng-model="task.description" ng-enter="save(task)"
+            <div class="col-md-7">
+                <input class="form-control" ng-show="task.onEdit" ng-model="task.description" ng-enter="save(task)"
                        ng-value="task.description"/>
-                <span ng-hide="task.editable" ng-click="setEditable(task);"><span>{{ task.description }}</span><i
+                <span ng-hide="task.onEdit" ng-click="setEditable(task);"><span>{{ task.description }}</span><i
                         class="fa fa-edit edit-icon"></i></span>
             </div>
             <div class="col-md-3">
-                <select class="form-control" ng-model="task.state" ng-change="setState(task)">
+                <select class="form-control task-state" ng-model="task.state" ng-change="setState(task)">
                     <option ng-value="0">New</option>
                     <option ng-value="50">In progress</option>
                     <option ng-value="90">Finished</option>
                 </select>
+<!--                <div class="alert alert-success" ng-click="setStateEditable(task)" ng-bind="task.state" ng-hide="task.onState">{{task.state}}</div>-->
             </div>
-            <div class="col-md-3">
-                <a href="#" class="btn btn-default p-r-2" ng-click="delete(task)" >Del</a>
-            </div>
+
             <div class="col-md-2 text-right">
                 <span class="badge">{{ task.dueDate }}</span>
+                <a class="close task-close" ng-click="delete(task)" >×</a>
             </div>
+
+
             <div class="clearfix"></div>
         </div>
 
         <a class="list-group-item active">
             <span class="badge">{{ tasks.length }}</span>Count
         </a>
+
     </div>
 
 </div>

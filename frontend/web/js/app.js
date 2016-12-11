@@ -23,10 +23,22 @@ app.controller("TaskListController", function($scope, Task) {
 
 
     $scope.setEditable = function (task) {
-        task.editable = true;
+        task.onEdit = true;
+    };
+    $scope.save = function (task) {
+        task.onEdit = false;
+
+        task.$update();
+    };
+
+    $scope.setStateEditable = function (task) {
+        task.onState = true;
     };
     $scope.setState = function (task) {
-        task.$update();
+        task.onState = false;
+        task.$update(function(){
+            $scope.reloadList();
+        });
     };
 
     $scope.reloadList = function () {
@@ -38,20 +50,16 @@ app.controller("TaskListController", function($scope, Task) {
         });
     };
 
-    $scope.save = function (task) {
-        task.editable = false;
-
-        task.$update();
-    };
-
-    $scope.add = function (descr) {
+    $scope.add = function () {
         var task = new Task({
-            description:descr
+            description: $scope.description
         });
 
-        task.$create(function(data){
-            $scope.tasks.push(data);
+        task.$create(function(){
+            $scope.reloadList();
         });
+
+        $scope.description = '';
     };
 
     $scope.delete = function (task) {

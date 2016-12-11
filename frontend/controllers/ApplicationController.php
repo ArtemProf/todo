@@ -16,9 +16,7 @@ class ApplicationController extends ActiveController
     {
         $actions = parent::actions();
         unset($actions['create']);
-//            unset($actions['update']);
         unset($actions['delete']);
-//            unset($actions['view']);
         unset($actions['index']);
 
         return $actions;
@@ -43,29 +41,11 @@ class ApplicationController extends ActiveController
         return $task;
     }
 
-//    public function actionUpdate($id=null)
-//    {
-////var_dump($postTask);die;
-//        $uid = User::current()->id;
-//        $task = Item::findOne(['id' => $id, 'uid' => $uid ]);
-//
-//        if( empty($task) ){
-//            return [];
-//        }
-//
-//        $postTask = Yii::$app->getRequest()->post();
-//        $task->updateAttributes($postTask);
-//
-//        $task->save();
-//
-//        return $task;
-//    }
-
     public function actionDelete($id = null)
     {
         Item::findOne(['id' => $id])->delete();
 
-        return User::current()->getActiveItems()->all();
+        return User::current()->getItems()->all();
     }
 
     protected function verbs()
@@ -74,7 +54,6 @@ class ApplicationController extends ActiveController
             'create' => ['POST'],
             'update' => ['PUT', 'PATCH'],
             'delete' => ['DELETE'],
-            'view'   => ['GET'],
             'index'  => ['GET'],
         ];
     }

@@ -84,7 +84,7 @@
         }
 
         public function getItems() {
-            return $this->hasMany(Item::className(), ['uid' => 'id']);
+            return $this->hasMany(Item::className(), ['uid' => 'id'])->orderBy(['state' => 'DESC', 'id' => 'DESC']);
         }
 
         public function getDoneItems() {

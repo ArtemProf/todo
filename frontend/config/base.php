@@ -19,13 +19,19 @@
 				'class' => 'app\components\View'
 			],
 			'urlManager' => [
+                'enablePrettyUrl' => true,
+                'enableStrictParsing' => true,
+                'showScriptName' => false,
 				'rules' => require 'routes.php'
-			]
+			],
+            'request' => [
+                'parsers' => [
+                    'application/json' => 'yii\web\JsonParser',
+                ]
+            ]
 		],
 		'params' => $params
 	]);
 
-	/* Необходимо для обработки событий авторизации, регистрации и т.п. */
-	$config['components']['user']['class'] = 'frontend\components\User';
 
 	return $config;

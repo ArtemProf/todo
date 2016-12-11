@@ -10,6 +10,10 @@ use yii\db\ActiveRecord;
  */
 class Item extends ActiveRecord
 {
+    const STATE_NEW = 10;
+    const STATE_IN_PROGRESS = 50;
+    const STATE_DONE = 90;
+    
     /**
      * @var integer
      */
@@ -33,8 +37,7 @@ class Item extends ActiveRecord
     /**
      * @var integer
      */
-    private $done;
-
+    private $state;
 
     /**
      * @inheritdoc
@@ -63,7 +66,7 @@ class Item extends ActiveRecord
             'description' => 'Description',
             'dueDate'     => 'Due Date',
             'itemGroup'   => 'Group',
-            'done'        => 'Done',
+            'state'       => 'State',
         ];
     }
 
@@ -73,8 +76,11 @@ class Item extends ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'uid', 'description', 'dueDate', 'itemGroup','done'], 'safe'],
+            [['uid', 'description', 'dueDate'], 'required'],
+            [['id', 'uid', 'itemGroup', 'state'], 'integer'],
+            [['description'], 'string'],
         ];
+
     }
 
 }

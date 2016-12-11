@@ -84,18 +84,15 @@
         }
 
         public function getItems() {
-            return $this->hasMany(Item::className(), ['uid' => 'id'])
-                ->viaTable(Item::tableName(), ['uid' => 'id']);
+            return $this->hasMany(Item::className(), ['uid' => 'id']);
         }
 
         public function getDoneItems() {
-            return $this->hasMany(Item::className(), ['uid' => 'id'])
-                ->viaTable(Item::tableName(), ['uid' => 'id'])->where(['done' => true]);
+            return $this->hasMany(Item::className(), ['uid' => 'id'])->where(['state' => Item::STATE_DONE]);
         }
 
         public function getActiveItems() {
-            return $this->hasMany(Item::className(), ['uid' => 'id'])
-                ->viaTable(Item::tableName(), ['uid' => 'id'])->where(['done'=> false]);
+            return $this->hasMany(Item::className(), ['uid' => 'id'])->where(['state'=> Item::STATE_DONE]);
         }
 
         public function setItems($item) {

@@ -15,7 +15,7 @@ class m161209_232159_added_item extends Migration
                 'description'  => $this->string()->notNull(),
                 'itemGroup'   => $this->integer()->defaultValue(0),
                 'dueDate' => $this->date(),
-                'done' => $this->boolean()->defaultValue(false),
+                'state' => $this->integer()->defaultValue(false),
             ]
         );
     }

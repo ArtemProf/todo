@@ -13,8 +13,8 @@
     "font-awesome": "v4.3.0",
     "bootstrap": "3.3.7",
     "jquery": "2.1.4",
-    "angular": "1.4.9",
-    "angular-sanitize": "1.4.9",
-    "angular-drag-and-drop-lists": "v1.2.0"
+    "angular": "~1.6",
+    "angular-resource": "~1.6",
+    "angular-route": "~1.6"
   }
 }

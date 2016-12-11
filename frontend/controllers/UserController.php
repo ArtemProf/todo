@@ -2,85 +2,93 @@
 
 namespace app\controllers;
 
-use app\components\Controller;
 use common\models\user\User;
 use common\models\user\form\LoginForm;
+use yii\base\Exception;
 use yii\base\UserException;
 use Yii;
+use yii\rest\ActiveController;
+use yii\web\Response;
 
-class UserController extends Controller
+class UserController extends ActiveController
 {
+    public $modelClass = User::class;
+    public $user = null;
 
-    public function actionLogin()
+    public function __construct($id, $module, $config = [])
     {
+        parent::__construct($id, $module, $config);
 
-        $model = new LoginForm();
-        $request = Yii::$app->request;
-
-        if ($request->isPost && $model->load($request->post()) && $model->login()) {
-            return $this->goBack();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect('/login');
         }
 
-        return $this->render(
-            'login',
-            [
-                'model' => $model,
-            ]
-        );
-    }
-
-    public function actionRegister()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if( !User::current()->isAdmin() ){
+            return $this->redirect('/');
         }
 
-        $user = new User();
-        $request = Yii::$app->request;
+        $this->user = User::current();
 
-        if ($request->isPost && $user->load($request->post()) && $user->validate()) {
+        return $this;
+    }
 
-            if ($user->save() && Yii::$app->user->login($user)) {
-                return $this->goHome();
-            }
+    public function actions()
+    {
+        $actions = parent::actions();
+        unset($actions['update']);
+        unset($actions['create']);
+        unset($actions['delete']);
+        unset($actions['index']);
+        unset($actions['view']);
 
-            throw new UserException(Yii::t('app', 'auth.register.unknown.exception'));
+        return $actions;
+    }
+
+    public function actionIndex()
+    {
+        return User::find()->all();
+    }
+
+    public function actionUpdate($id=null)
+    {
+        $user = User::findOne(['id' => $id]);
+
+        if( empty($user) ){
+            return [];
         }
-
-        return $this->render(
-            'register',
-            [
-                'model' => $user,
-            ]
-        );
-    }
-
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
-    }
-
-    public function actionProfile()
-    {
-        $user = User::findOne(Yii::$app->user->id);
-
-        $request = Yii::$app->request;
-
-        if ($request->isPost) {
-            $user->nameFirst = $request->post('User')['nameFirst'];
-            $user->nameLast = $request->post('User')['nameLast'];
-            $user->email = $request->post('User')['email'];
-            $user->password = $request->post('User')['password'];
+        if( $user->updateAttributes(Yii::$app->getRequest()->post()) && $user->validate() ){
             $user->save();
         }
 
-        return $this->render(
-            'profile',
-            [
-                'model' => User::findOne(Yii::$app->user->id),
-            ]
-        );
+        return $user;
+    }
+
+    public function actionDelete($id = null)
+    {
+        if( $this->user->id == $id ){
+            return [];
+        }
+
+        User::findOne(['id' => $id])->delete();
+
+        return User::find()->all();
+    }
+
+    public function actionView()
+    {
+        Yii::$app->response->format = Response::FORMAT_HTML;
+
+        return $this->render('index');
+    }
+
+    protected function verbs()
+    {
+        return [
+            'create' => ['POST'],
+            'update' => ['PUT', 'PATCH'],
+            'delete' => ['DELETE'],
+            'index'  => ['GET'],
+            'view'   => ['GET'],
+        ];
     }
 }

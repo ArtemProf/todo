@@ -13,12 +13,12 @@ class LoginForm extends Model
     public $remember = true;
 
     /**
-     * @var User Кеш текущего пользователя
+     * @var User cache of the currect user
      */
     private $_user;
 
     /**
-     * @return array правила проверки полей
+     * @return array
      */
     public function rules()
     {
@@ -46,24 +46,19 @@ class LoginForm extends Model
     }
 
     /**
-     * Проверка поля "пароль"
-     *
-     * @param string $attribute текущее проверяемое поле
-     * @param array  $params    дополнительный ассоциативный массив
+     * @param $attribute
      */
-    public function validatePassword($attribute, $params)
+    public function validatePassword($attribute)
     {
         if (!$this->hasErrors()) {
             if (!$this->getUser() || !$this->getUser()->isPasswordValid($this->password)) {
-                $this->addError($attribute, 'Неверное имя пользователя или пароль');
+                $this->addError($attribute, 'Incorrect user name or password');
             }
         }
     }
 
     /**
-     * Получение пользователя, пытающегося авторизоваться по полю Email, если оно определено.
-     *
-     * @return User текущий пользователь, пытающийся авторизоваться
+     * @return User
      */
     private function getUser()
     {
@@ -75,7 +70,7 @@ class LoginForm extends Model
     }
 
     /**
-     * Авторизация пользователя
+     * @return bool
      */
     public function login()
     {

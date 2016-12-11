@@ -39,12 +39,19 @@ class Task extends ActiveRecord
      */
     private $state;
 
+    public function relations()
+    {
+        return array(
+            'user' => array(self::BELONGS_TO, User::class, 'uid'),
+        );
+    }
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'item';
+        return 'task';
     }
 
     /**

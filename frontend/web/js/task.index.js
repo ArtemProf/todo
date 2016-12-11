@@ -1,8 +1,6 @@
 var taskApp = angular.module('taskApp', ['ngResource', 'ngRoute']);
 
 taskApp.factory("Task", function($resource) {
-
-
     return $resource('/api/task/:id', {id:'@id'}, {
         get: {
             method: "GET",
@@ -24,8 +22,6 @@ taskApp.factory("Task", function($resource) {
 });
 
 taskApp.controller("TaskListController", function($scope, Task) {
-
-
     $scope.setEditable = function (task) {
         task.onEdit = true;
     };
@@ -35,17 +31,25 @@ taskApp.controller("TaskListController", function($scope, Task) {
         task.$update();
     };
 
+    $scope.onBlur = function (task) {
+        task.onEdit = false;
+    };
+
     $scope.setState = function (task) {
         task.$update(function(){
             $scope.reloadList();
         });
     };
 
-    $scope.reloadList = function () {
-        $scope.spinner = true;
+    $scope.getUserName = function (task) {
+        if( !window.users ){
+            return '';
+        }
+        return window.users[ task.uid ];
+    };
 
+    $scope.reloadList = function () {
         Task.query(function(data){
-            $scope.spinner = false;
             $scope.tasks = data;
         });
     };
@@ -70,7 +74,6 @@ taskApp.controller("TaskListController", function($scope, Task) {
     $scope.reloadList();
 });
 
-
 taskApp.directive('ngEnter', function() {
     return function(scope, element, attrs) {
         element.bind("keydown keypress", function(event) {
@@ -83,3 +86,20 @@ taskApp.directive('ngEnter', function() {
         });
     };
 });
+
+taskApp.directive('ngFocus', ['$timeout', '$parse', function ($timeout, $parse) {
+    return {
+        //scope: true,   // optionally create a child scope
+        link: function (scope, element, attrs) {
+            var model = $parse(attrs.ngFocus);
+            scope.$watch(model, function (value) {
+                if (value !== true) {
+                    return;
+                }
+                $timeout(function () {
+                    element[0].focus();
+                });
+            });
+        }
+    };
+}]);

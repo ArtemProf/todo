@@ -12,6 +12,9 @@ $this->registerJsFile('/js/angular-route.min.js?'.filemtime(Yii::getAlias('@fron
 $this->registerJsFile('/js/angular-resource.min.js?'.filemtime(Yii::getAlias('@frontend/web/js/angular-resource.min.js')));
 
 if (Yii::$app->requestedRoute !== 'index') {
+    if( !isset($title)){
+        $title = '';
+    }
     $title .= ' - Todo.me';
 }
 

@@ -7,14 +7,13 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
-$this->usePageScript();
 $this->title = 'Login';
 ?>
 
 <div class="login-form col-md-4 col-md-offset-4">
     <h4 class="text-center">Login</h4>
     <? $form = ActiveForm::begin(
-        ['action' => ['user/login'], 'class' => 'form-horizontal', 'enableClientValidation' => false]
+        ['action' => ['/login'], 'class' => 'form-horizontal', 'enableClientValidation' => false]
     ) ?>
     <?= $form->field($model, 'email')->textInput(['placeholder' => 'Email'])->label(false) ?>
     <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Password'])->label(false) ?>

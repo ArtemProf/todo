@@ -12,6 +12,7 @@ use yii\web\Response;
 class TaskController extends ActiveController
 {
     public $modelClass = Task::class;
+    public $user = null;
 
     public function __construct($id, $module, $config = [])
     {
@@ -20,6 +21,8 @@ class TaskController extends ActiveController
         if (Yii::$app->user->isGuest) {
             return $this->redirect('/login');
         }
+
+        $this->user = User::current();
 
         return $this;
     }
@@ -37,13 +40,13 @@ class TaskController extends ActiveController
 
     public function actionIndex()
     {
-        return User::current()->getTasks()->all();
+        return $this->user->getTasks()->all();
     }
 
     public function actionCreate()
     {
         $task = new Task();
-        $task->uid = User::current()->id;
+        $task->uid = $this->user->id;
         $task->description = Yii::$app->getRequest()->post('description');
         $task->dueDate = date('Y-m-d');
         $task->state = 0;
@@ -58,14 +61,26 @@ class TaskController extends ActiveController
     {
         Task::findOne(['id' => $id])->delete();
 
-        return User::current()->getTasks()->all();
+        return $this->user->getTasks()->all();
     }
 
     public function actionView()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect('/login');
+        }
+
         Yii::$app->response->format = Response::FORMAT_HTML;
 
-        return $this->render('index');
+        $users = [];
+        if( $this->user->isAdmin() ){
+            $users = User::getUsersList();
+        }
+
+        return $this->render('index',[
+            'user' => $this->user,
+            'users' => $users
+        ]);
     }
 
     protected function verbs()

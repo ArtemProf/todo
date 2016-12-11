@@ -17,7 +17,7 @@ class m161209_215035_create_db extends Migration
                 'authToken' => $this->string(),
                 'nameFirst' => $this->string(),
                 'nameLast'  => $this->string(),
-                'gender'    => $this->string(),
+                'admin'     => $this->boolean()->defaultValue(false)
             ]
         );
     }

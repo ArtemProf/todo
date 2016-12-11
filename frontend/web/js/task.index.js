@@ -1,9 +1,13 @@
-var app = angular.module('taskApp', ['ngResource', 'ngRoute']);
+var taskApp = angular.module('taskApp', ['ngResource', 'ngRoute']);
 
-app.factory("Task", function($resource) {
+taskApp.factory("Task", function($resource) {
 
 
     return $resource('/api/task/:id', {id:'@id'}, {
+        get: {
+            method: "GET",
+            url: '/api/task/index'
+        },
         create: {
             method: "POST",
             url: '/api/task/create/'
@@ -19,7 +23,7 @@ app.factory("Task", function($resource) {
     });
 });
 
-app.controller("TaskListController", function($scope, Task) {
+taskApp.controller("TaskListController", function($scope, Task) {
 
 
     $scope.setEditable = function (task) {
@@ -31,11 +35,7 @@ app.controller("TaskListController", function($scope, Task) {
         task.$update();
     };
 
-    $scope.setStateEditable = function (task) {
-        task.onState = true;
-    };
     $scope.setState = function (task) {
-        task.onState = false;
         task.$update(function(){
             $scope.reloadList();
         });
@@ -71,7 +71,7 @@ app.controller("TaskListController", function($scope, Task) {
 });
 
 
-app.directive('ngEnter', function() {
+taskApp.directive('ngEnter', function() {
     return function(scope, element, attrs) {
         element.bind("keydown keypress", function(event) {
             if(event.which === 13) {

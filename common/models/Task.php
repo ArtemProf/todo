@@ -5,15 +5,15 @@ namespace common\models;
 use yii\db\ActiveRecord;
 
 /**
- * Class Item
+ * Class Task
  * @package common\models
  */
-class Item extends ActiveRecord
+class Task extends ActiveRecord
 {
     const STATE_NEW = 10;
     const STATE_IN_PROGRESS = 50;
     const STATE_DONE = 90;
-    
+
     /**
      * @var integer
      */

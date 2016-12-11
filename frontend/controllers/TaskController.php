@@ -4,13 +4,25 @@ namespace app\controllers;
 
 use Yii;
 use common\models\user\User;
-use common\models\Item;
+use common\models\Task;
 use yii\rest\ActiveController;
+use yii\web\Response;
 
 
-class ApplicationController extends ActiveController
+class TaskController extends ActiveController
 {
-    public $modelClass = Item::class;
+    public $modelClass = Task::class;
+
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect('/login');
+        }
+
+        return $this;
+    }
 
     public function actions()
     {
@@ -18,18 +30,19 @@ class ApplicationController extends ActiveController
         unset($actions['create']);
         unset($actions['delete']);
         unset($actions['index']);
+        unset($actions['view']);
 
         return $actions;
     }
 
     public function actionIndex()
     {
-        return User::current()->getItems()->all();
+        return User::current()->getTasks()->all();
     }
 
     public function actionCreate()
     {
-        $task = new Item();
+        $task = new Task();
         $task->uid = User::current()->id;
         $task->description = Yii::$app->getRequest()->post('description');
         $task->dueDate = date('Y-m-d');
@@ -43,9 +56,16 @@ class ApplicationController extends ActiveController
 
     public function actionDelete($id = null)
     {
-        Item::findOne(['id' => $id])->delete();
+        Task::findOne(['id' => $id])->delete();
 
-        return User::current()->getItems()->all();
+        return User::current()->getTasks()->all();
+    }
+
+    public function actionView()
+    {
+        Yii::$app->response->format = Response::FORMAT_HTML;
+
+        return $this->render('index');
     }
 
     protected function verbs()
@@ -55,6 +75,7 @@ class ApplicationController extends ActiveController
             'update' => ['PUT', 'PATCH'],
             'delete' => ['DELETE'],
             'index'  => ['GET'],
+            'view'   => ['GET'],
         ];
     }
 

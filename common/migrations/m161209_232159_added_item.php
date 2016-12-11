@@ -1,14 +1,14 @@
 <?php
 
 use yii\db\Migration;
-use common\models\Item;
+use common\models\Task;
 
 class m161209_232159_added_item extends Migration
 {
     public function up()
     {
         $this->createTable(
-            Item::tableName(),
+            Task::tableName(),
             [
                 'id'        => $this->primaryKey(),
                 'uid'     => $this->integer()->notNull(),
@@ -22,7 +22,7 @@ class m161209_232159_added_item extends Migration
 
     public function down()
     {
-        $this->dropTable(Item::tableName());
+        $this->dropTable(Task::tableName());
     }
 
     /*

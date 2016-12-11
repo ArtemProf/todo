@@ -2,7 +2,7 @@
 
 	namespace common\models\user;
 
-	use common\models\Item;
+	use common\models\Task;
     use Yii;
 	use yii\db\ActiveRecord;
 	use yii\web\IdentityInterface;
@@ -16,7 +16,6 @@
 	 * @property string  authToken
 	 * @property string  nameFirst
 	 * @property string  nameLast
-	 * @property string  gender
 	 *
 	 * @method static User findOne($condition)
 	 */
@@ -57,7 +56,8 @@
                 'fullName' => 'Full name',
 				'nameFirst' => 'First name',
 				'nameLast' => 'Last name',
-				'password' => 'Password'
+				'password' => 'Password',
+                'admin'     => 'Is admin'
 			];
 		}
 
@@ -71,7 +71,6 @@
 				[['email'], 'email', /*'checkDNS' => true*/],
 				[['email'], 'unique'],
 				[['nameFirst', 'nameLast'], 'default', 'value' => null],
-				[['gender'], 'in', 'range' => ['m', 'f']],
                 ['items', 'safe']
 			];
 		}
@@ -79,23 +78,15 @@
         public function relations()
         {
             return array(
-                'items' => array(self::MANY_MANY, Item::tableName(), 'item(post_id, section_id)'),
+                'items' => array(self::MANY_MANY, Task::tableName(), 'item(post_id, section_id)'),
             );
         }
 
-        public function getItems() {
-            return $this->hasMany(Item::className(), ['uid' => 'id'])->orderBy(['state' => 'DESC', 'id' => 'DESC']);
+        public function getTasks() {
+            return $this->hasMany(Task::className(), ['uid' => 'id'])->orderBy(['state' => 'DESC', 'id' => 'ASC']);
         }
 
-        public function getDoneItems() {
-            return $this->hasMany(Item::className(), ['uid' => 'id'])->where(['state' => Item::STATE_DONE]);
-        }
-
-        public function getActiveItems() {
-            return $this->hasMany(Item::className(), ['uid' => 'id'])->where(['state'=> Item::STATE_DONE]);
-        }
-
-        public function setItems($item) {
+        public function setTasks($item) {
             $this->items = $item;
         }
 

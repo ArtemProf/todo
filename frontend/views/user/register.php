@@ -17,6 +17,9 @@ $this->title = 'Registration';
         <? $form = ActiveForm::begin(
             ['action' => Url::toRoute(['user/register']), 'class' => 'form-horizontal', 'enableClientValidation' => false]
         ) ?>
+        <?= $form->field($model, 'nameFirst')->textInput(['placeholder' => 'First name'])->label(false) ?>
+        <?= $form->field($model, 'nameLast')->textInput(['placeholder' => 'Last name'])->label(false) ?>
+
         <?= $form->field($model, 'email')->textInput(['placeholder' => 'Email'])->label(false) ?>
         <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Password'])->label(false) ?>
 

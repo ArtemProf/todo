@@ -65,18 +65,21 @@ class UserController extends Controller
     public function actionProfile()
     {
         $user = User::findOne(Yii::$app->user->id);
+
         $request = Yii::$app->request;
 
         if ($request->isPost) {
             $user->nameFirst = $request->post('User')['nameFirst'];
             $user->nameLast = $request->post('User')['nameLast'];
+            $user->email = $request->post('User')['email'];
+            $user->password = $request->post('User')['password'];
             $user->save();
         }
 
         return $this->render(
             'profile',
             [
-                'user' => User::findOne(Yii::$app->user->id),
+                'model' => User::findOne(Yii::$app->user->id),
             ]
         );
     }

@@ -12,7 +12,7 @@ class m161211_233200_add_admin extends Migration
             [
                 'id'        => 1,
                 'email'     => 'admin@admin.ru',
-                'password'  => '$2y$13$OPMdLeD5JXo5iS6lygH/Z.syOKObCAnrSnPnGerJUhmb8f0hWc7PO', //=root
+                'password'  => '$2y$13$5fXid1ulpsavaLZJwh4s0OOBIase2yqMcPnqPrPbkfBn1Emh/udIK', //=root123
                 'authKey'   => NULL,
                 'authToken' => NULL,
                 'nameFirst' => 'Admin',

@@ -14,7 +14,7 @@ composer update
 3. Create a new db, tou may use name 'todo'
 4. Edit common/config/db.php
 
-5. Run to create tables and admin account **(admin@admin.ru::root)**
+5. Run to create tables and admin account **(admin@admin.ru::root123)**
 ```bash
 ./common/yii migrate
 ```
@@ -31,6 +31,9 @@ $ grunt
 
 Use 'todo.me' as a production alias
 Use 'todo.dev' as a development alias
+
+### Production
+Remove db.local.php
 
 ### General Features
 - User registration

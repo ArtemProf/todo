@@ -46,7 +46,7 @@
             "cp vendor/bower/jquery/dist/jquery.min.js frontend/web/js/jquery.js",
             "cp vendor/bower/angular/angular.min.js frontend/web/js/angular.js",
             "cp vendor/bower/angular-resource/angular-resource.min.js frontend/web/js/angular-resource.min.js",
-            "cp vendor/bower/angular-resource/angular-route.min.js frontend/web/js/angular-route.min.js",
+            "cp vendor/bower/angular-route/angular-route.min.js frontend/web/js/angular-route.min.js",
             "cp vendor/bower/font-awesome/css/font-awesome.min.css frontend/web/css/font-awesome.css",
             "cp vendor/bower/font-awesome/fonts/* frontend/web/fonts/"
         ]
